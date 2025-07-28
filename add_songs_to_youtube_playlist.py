@@ -7,20 +7,19 @@ from google.auth.transport.requests import Request
 from googleapiclient.errors import HttpError
 
 
-
-def get_authenticated_service(credentials): #credit: "https://stackoverflow.com/a/77714081"
+def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
     creds = None
     scope = 'https://www.googleapis.com/auth/youtube'
+    token_path = 'API_keys/token.json'
 
     #get keys
     api_key_path = "API_keys/key.txt"
     with open(api_key_path, "r") as f:
         api_key = f.readline().strip() #api_key is unaccessed in this program
         OAuth_client_secret_path = f.readline().strip()
-        print((api_key, OAuth_client_secret_path))
 
-    if os.path.exists(OAuth_client_secret_path):
-        creds = Credentials.from_authorized_user_file(OAuth_client_secret_path, scope)
+    if os.path.exists(token_path):
+        creds = Credentials.from_authorized_user_file(token_path, scope)
 
     # If there are no (valid) user credentials available, prompt the user to log in.
     if not creds or not creds.valid:
@@ -28,20 +27,17 @@ def get_authenticated_service(credentials): #credit: "https://stackoverflow.com/
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                credentials, scope)
+                OAuth_client_secret_path, scope)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open(user_token, 'w') as token:
+        with open(token_path, 'w') as token:
             token.write(creds.to_json())
+
     try:
         return build('youtube', 'v3', credentials=creds)
     except HttpError as error:
         # TODO(developer) - any errors returned.
         print(f'An error occurred: {error}')
-
-
-
-
 
 
 def search_song(youtube, query):
@@ -78,7 +74,7 @@ def add_song_to_playlist(youtube, playlist_id, video_id):
 def main(songs):
     
     #setup Youtube client
-    youtube = get_authenticated_service(api_key, OAuth_client_secret_path)
+    youtube = get_authenticated_service()
 
     playlist_id = "PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG"
 
