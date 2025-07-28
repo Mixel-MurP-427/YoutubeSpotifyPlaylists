@@ -8,7 +8,7 @@ from googleapiclient.errors import HttpError
 
 
 
-def build_service(credentials): #credit: "https://stackoverflow.com/a/77714081"
+def get_authenticated_service(credentials): #credit: "https://stackoverflow.com/a/77714081"
     creds = None
     scope = 'https://www.googleapis.com/auth/youtube'
 
