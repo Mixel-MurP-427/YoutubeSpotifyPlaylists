@@ -40,13 +40,13 @@ def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
         print(f'An error occurred: {error}')
 
 
-def search_song(youtube, query):
+def search_song_with_YoutubeAPI(youtube, query):
     request = youtube.search().list(
         q=query,
         part="id,snippet",
         maxResults=1,
         type="video",
-        videoCategoryId="10"  # Music category
+        videoCategoryId="10" # Music category
     )
     response = request.execute()
     items = response.get("items", [])
@@ -54,6 +54,7 @@ def search_song(youtube, query):
     if items:
         return items[0]["id"]["videoId"]
     return None
+
 
 def add_song_to_playlist(youtube, playlist_id, video_id):
     request = youtube.playlistItems().insert(
@@ -70,26 +71,3 @@ def add_song_to_playlist(youtube, playlist_id, video_id):
     )
     response = request.execute()
     return response
-
-def main(songs):
-    
-    #setup Youtube client
-    youtube = get_authenticated_service()
-
-    playlist_id = "PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG"
-
-    for song in songs:
-        video_id = search_song(youtube, song)
-        if video_id:
-            add_song_to_playlist(youtube, playlist_id, video_id)
-            print(f"Added '{song}' to playlist.")
-        else:
-            print(f"Song '{song}' not found.")
-
-if __name__ == "__main__":
-    print('going!')
-    main([
-        "Wake Up Alan Walker Neon Nights",
-        "VGR Smash Bros Melee",
-        "Crab Rave Noisestorm"
-    ])

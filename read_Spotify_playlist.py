@@ -47,6 +47,6 @@ def read_Spotlist(rsURL, rsConfig):
 
     driver.close()
     #print('closed successfully!')
-    print(f"Done!\nNumber of songs found: {len(playlist)}\nNumber of uncaught elements: {rsErrorCount}")
+    print(f"Done reading Spotify playlist!\nNumber of songs found: {len(playlist)}\nNumber of uncaught elements: {rsErrorCount}")
     if not rsConfig["auto-save each iteration"]:
         return playlist
