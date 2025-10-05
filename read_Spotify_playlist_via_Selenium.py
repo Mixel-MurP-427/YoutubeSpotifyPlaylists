@@ -5,11 +5,13 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 import time
 
 #constants
-song_path = '//div[@data-testid="tracklist-row"]'
-index_path = './div/div/span'
-title_path = './div/div/a/div'
-artist_path = './div/div/span/div/a'
-album_path = './div/span/a'
+paths = {
+    'song_path': '//div[@data-testid="tracklist-row"]',
+    'index_path': './div/div/span',
+    'title_path': './div/div/a/div',
+    'artist_path': './div/div/span/div/a',
+    'album_path': './div/span/a'
+}
 
 def read_Spotlist(rsURL, rsConfig):
     rsErrorCount = 0
@@ -25,15 +27,15 @@ def read_Spotlist(rsURL, rsConfig):
     for _ in range(rsConfig["scan iterations"]):
         time.sleep(rsConfig["iteration pause time"])
 
-        song_elements = driver.find_elements(By.XPATH, song_path)
+        song_elements = driver.find_elements(By.XPATH, paths['song_path'])
 
         for song_element in song_elements:
             try:
-                song_info = {'title': song_element.find_element(By.XPATH, title_path).text,
-                    'artist': song_element.find_element(By.XPATH, artist_path).text,
-                    'album': song_element.find_element(By.XPATH, album_path).text
+                song_info = {'title': song_element.find_element(By.XPATH, paths['title_path']).text,
+                    'artist': song_element.find_element(By.XPATH, paths['artist_path']).text,
+                    'album': song_element.find_element(By.XPATH, paths['album_path']).text
                 } 
-                index = int(song_element.find_element(By.XPATH, index_path).text)
+                index = int(song_element.find_element(By.XPATH, paths['index_path']).text)
 
             except (NoSuchElementException, StaleElementReferenceException, ValueError):
                 rsErrorCount += 1 #this line of code is basically worthless
