@@ -3,8 +3,8 @@
 import json
 
 import config
-from read_Spotify_playlist import read_Spotlist
-#TODO import add_songs_to_youtube_playlist
+from read_Spotify_playlist_via_Selenium import read_Spotlist
+#TODO import YoutubeAPI_things
 
 Spotify_playlist_page = "https://open.spotify.com/playlist/7qlbZw2xZQvWos9M7uj8Pe"
 Youtube_playlist_ID = "PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG"

@@ -1,3 +1,5 @@
+#this program contains all fuctions pertaining to the Youtube API
+
 import os
 
 from google.oauth2.credentials import Credentials
@@ -7,6 +9,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.errors import HttpError
 
 
+#initialize Youtube object
 def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
     creds = None
     scope = 'https://www.googleapis.com/auth/youtube'

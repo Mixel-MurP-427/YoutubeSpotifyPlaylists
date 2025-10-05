@@ -1,3 +1,5 @@
+#this program has some config settings for read_Spotify_playlist_via_Selenium.py
+
 #you can edit the values in this dictionary to configure your desired features.
 config_settings = {
     "initial wait time": 1, #time (in seconds) to wait before starting the scan, to allow the page to load
