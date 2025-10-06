@@ -28,17 +28,20 @@ def get_all_playlist_tracks(playlist_id):
 
     return tracks
 
-# Example usage: Replace with your playlist ID (you can find it in the Spotify URL)
-playlist_id = "7qlbZw2xZQvWos9M7uj8Pe"  # e.g., "37i9dQZF1DXcBWIGoYBM5M"
 
-# Fetch all tracks
-songs = get_all_playlist_tracks(playlist_id)
+if __name__ == "__main__":
 
-# Print song details
-for idx, item in enumerate(songs, start=1):
-    track = item['track']
-    if track:  # Sometimes track might be None (e.g., deleted)
-        name = track['name']
-        album = track["album"]["name"]
-        artists = track['artists'][0]["name"] #gets first artist only (I think)
-        print(f"{idx}. {name} - {album}: {artists}")
+    # Example usage: Replace with your playlist ID (you can find it in the Spotify URL)
+    playlist_id = "7qlbZw2xZQvWos9M7uj8Pe"  # e.g., "37i9dQZF1DXcBWIGoYBM5M"
+
+    # Fetch all tracks
+    songs = get_all_playlist_tracks(playlist_id)
+
+    # Print song details
+    for idx, item in enumerate(songs, start=1):
+        track = item['track']
+        if track:  # Sometimes track might be None (e.g., deleted)
+            name = track['name']
+            album = track["album"]["name"]
+            artists = track['artists'][0]["name"] #gets first artist only (I think)
+            print(f"{idx}. {name} - {album}: {artists}")

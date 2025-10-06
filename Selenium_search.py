@@ -2,13 +2,12 @@
 #It uses Selenium to open https://music.youtube.com/ and manually search for songs
 
 import json
+import re
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
-#from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-#import time
 
 
 #constants
@@ -21,6 +20,9 @@ xml_paths = {
     'share_button': '//yt-formatted-string[text() = "Share"]',
     'url_element': '//*[@id="share-url"]'
 }
+
+video_id_pattern = re.compile(r"v=([\w-]{11})") #TODO
+
 
 def search_songs_with_Selenium(queryList):
     output = []
@@ -64,10 +66,12 @@ def search_songs_with_Selenium(queryList):
 
 
     driver.quit()
-    #TODO extract video IDs only, remove rest of url
+    #extract video IDs only, remove rest of url
+    for i in range(len(output)):
+        output[i] = video_id_pattern.search(output[i]).group(1)
     return output
 
 
 
 if __name__ == "__main__":
-    print(search_songs_with_Selenium(["Mr. Blue Sky", "Church Clap"]))
+    print(search_songs_with_Selenium(["Mr. Blue Sky", "Church Clap", "Mayonaise on an Escalator"]))

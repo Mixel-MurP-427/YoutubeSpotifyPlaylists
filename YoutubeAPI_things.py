@@ -21,7 +21,7 @@ def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
         api_key = f.readline().strip() #api_key is unaccessed in this program
         OAuth_client_secret_path = f.readline().strip()
 
-    if os.path.exists(token_path):
+    if os.path.exists(token_path): #TODO programs fails when opens expired token?
         creds = Credentials.from_authorized_user_file(token_path, scope)
 
     # If there are no (valid) user credentials available, prompt the user to log in.
