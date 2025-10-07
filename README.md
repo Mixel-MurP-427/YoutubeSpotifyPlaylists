@@ -7,3 +7,6 @@ First, clone the repo then install dependencies and log in
 
 
 (sorry, this readme is on my TODO list)
+
+TODO better usage comments at beginning of each file
+link docs for Youtube and Spotify APIs in this README
