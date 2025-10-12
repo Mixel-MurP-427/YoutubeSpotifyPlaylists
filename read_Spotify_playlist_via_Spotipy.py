@@ -1,3 +1,5 @@
+#Uses the Spotipy library to get basic info for each song in a playlist
+
 import json
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth

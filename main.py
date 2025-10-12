@@ -1,12 +1,12 @@
-#this program is an example use of the API [TODO fix this, add usage info]
+#This program contains every step needed to create a Youtube replica of your Spotify playlist
+#note config variables below
 
-#TODO don't import certain fuctions when unnecessary?
 import json
 from read_Spotify_playlist_via_Spotipy import get_all_playlist_tracks
 from Selenium_search import search_songs_with_Selenium
 from YoutubeAPI_things import get_authenticated_service, add_song_to_playlist
 
-#TODO change this so that a prompt asks for it if __name__ == "__main__" or something
+# THE USER WILL WANT TO CONFIGURE THESE VARIALBES
 Spotify_playlist_ID = '4rjTXDEitThyBbXnfRJdOV'
 Youtube_playlist_ID = 'PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG'
 songs_save_path = 'playlist.json'

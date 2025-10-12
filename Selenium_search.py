@@ -3,6 +3,7 @@
 
 import json
 import re
+from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,21 +22,30 @@ xml_paths = {
     'url_element': '//*[@id="share-url"]'
 }
 
-video_id_pattern = re.compile(r"v=([\w-]{11})") #TODO
+video_id_pattern = re.compile(r"v=([\w-]{11})")
 
 
 def search_songs_with_Selenium(queryList):
     output = []
 
+    #countdown warning
+    print('Launching web browser via Selenium in\n3')
+    sleep(1)
+    print('2')
+    sleep(1)
+    print('1')
+    sleep(1)
+
+    #initialize web driver
     driver = webdriver.Chrome()
     actions = ActionChains(driver)
     wait = WebDriverWait(driver, 5) # Wait for a maximum of 5 seconds
 
     for song in queryList:
 
+        #convert to acceptable query for the url
         search_phrase = song.replace(' ', '+')
         driver.get(f"https://music.youtube.com/search?q={search_phrase}")
-        #assert "Youtube Music" in driver.title
 
         #click song filter button
         song_filter_element = driver.find_element(By.XPATH, xml_paths['song_filter_button'])
@@ -72,6 +82,6 @@ def search_songs_with_Selenium(queryList):
     return output
 
 
-
+#example:
 if __name__ == "__main__":
     print(search_songs_with_Selenium(["Mr. Blue Sky", "Church Clap", "Mayonaise on an Escalator"]))
