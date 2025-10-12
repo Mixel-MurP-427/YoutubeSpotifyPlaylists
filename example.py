@@ -8,15 +8,16 @@ from YoutubeAPI_things import get_authenticated_service, add_song_to_playlist
 Spotify_playlist_ID = "4rjTXDEitThyBbXnfRJdOV"
 Youtube_playlist_ID = "PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG"
 
-"""
-print('retrieving songs from Spotify...)
+#"""
+print('retrieving songs from Spotify...')
 playlist_songs = get_all_playlist_tracks(Spotify_playlist_ID)
 
-print('saving songs...)
+print('saving songs...')
 with open('playlist.json', 'w') as myFile:
     json.dump(playlist_songs, myFile)
-"""
+#"""
 
+"""
 #this is a hack
 playlist_songs = {
     "1": {
@@ -171,6 +172,8 @@ playlist_songs = {
     }
 }
 """
+
+
 search_queries = []
 for i in range(1, len(playlist_songs)+1):
     search_queries.append(f"{playlist_songs[str(i)]['title']} {playlist_songs[str(i)]['artist']} {playlist_songs[str(i)]['album']}")
@@ -179,7 +182,9 @@ Youtube_song_IDs = search_songs_with_Selenium(search_queries)
 
 with open('song_IDs.json', 'w') as myFile:
     json.dump(Youtube_song_IDs, myFile)
-"""
+
+#"""
+
 with open('playlist.json', 'r') as myFile:
     Youtube_song_IDs = json.load(myFile)
 

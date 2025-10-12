@@ -1,3 +1,5 @@
+#Credit to McMineyC
+# What it does: Run the program, it asks you for a search phrase, then searches Spotify and allows you to select a song share link
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
@@ -18,7 +20,7 @@ class SpotifySearchCLI:
         
     def setup_paths(self):
         """Set up directory paths"""
-        self.config_dir = Path('API_KEYS')
+        self.config_dir = Path('spotify_cli/API_KEYS')
         self.config_file = self.config_dir / 'spotify.json'
         self.config_dir.mkdir(exist_ok=True)
         
