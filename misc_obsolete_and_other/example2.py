@@ -2,8 +2,8 @@
 
 import json
 
-import config
-from read_Spotify_playlist_via_Selenium import read_Spotlist
+import misc_obsolete_and_other.config as config
+from misc_obsolete_and_other.read_Spotify_playlist_via_Selenium import read_Spotlist
 #TODO import YoutubeAPI_things
 
 Spotify_playlist_page = "https://open.spotify.com/playlist/7qlbZw2xZQvWos9M7uj8Pe"
