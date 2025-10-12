@@ -1,196 +1,85 @@
-#this program is an example use of the API
+#this program is an example use of the API [TODO fix this, add usage info]
 
+#TODO don't import certain fuctions when unnecessary?
 import json
 from read_Spotify_playlist_via_Spotipy import get_all_playlist_tracks
 from Selenium_search import search_songs_with_Selenium
 from YoutubeAPI_things import get_authenticated_service, add_song_to_playlist
 
-Spotify_playlist_ID = "4rjTXDEitThyBbXnfRJdOV"
-Youtube_playlist_ID = "PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG"
-
-#"""
-print('retrieving songs from Spotify...')
-playlist_songs = get_all_playlist_tracks(Spotify_playlist_ID)
-
-print('saving songs...')
-with open('playlist.json', 'w') as myFile:
-    json.dump(playlist_songs, myFile)
-#"""
-
-"""
-#this is a hack
-playlist_songs = {
-    "1": {
-        "title": "The Rebel Path",
-        "artist": "P.T. Adamczyk",
-        "album": "Cyberpunk 2077 - Original Score"
-    },
-    "2": {
-        "title": "Betelgeuse Boogaloo",
-        "artist": "Theatre Of Delays",
-        "album": "Betelgeuse Boogaloo"
-    },
-    "3": {
-        "title": "Use of Force",
-        "artist": "Le Castle Vania",
-        "album": "Payday"
-    },
-    "4": {
-        "title": "End of Line",
-        "artist": "Daft Punk",
-        "album": "TRON: Legacy - The Complete Edition (Original Motion Picture Soundtrack)"
-    },
-    "5": {
-        "title": "6.24",
-        "artist": "Danger",
-        "album": "Furi (Original Game Soundtrack)"
-    },
-    "6": {
-        "title": "The Orb",
-        "artist": "Daniel Deluxe",
-        "album": "Ghostrunner (Original Soundtrack)"
-    },
-    "7": {
-        "title": "Undefined",
-        "artist": "Bad Computer",
-        "album": "Undefined"
-    },
-    "8": {
-        "title": "4Me",
-        "artist": "Bad Computer",
-        "album": "4Me"
-    },
-    "9": {
-        "title": "Hypnocurrency",
-        "artist": "Rezz",
-        "album": "Hypnocurrency"
-    },
-    "10": {
-        "title": "Infraliminal",
-        "artist": "REZZMAU5",
-        "album": "Infraliminal"
-    },
-    "11": {
-        "title": "1:30",
-        "artist": "Danger",
-        "album": "July 2013"
-    },
-    "12": {
-        "title": "Spoiler - Original Mix",
-        "artist": "Hyper",
-        "album": "Lies"
-    },
-    "13": {
-        "title": "Merge",
-        "artist": "Theatre Of Delays",
-        "album": "This Is Not an Album, Pt. 2"
-    },
-    "14": {
-        "title": "Timefracture",
-        "artist": "Bad History",
-        "album": "Timefracture"
-    },
-    "15": {
-        "title": "22:39",
-        "artist": "Danger",
-        "album": "Origins"
-    },
-    "16": {
-        "title": "Terrabot",
-        "artist": "Waveshaper",
-        "album": "Terrabot"
-    },
-    "17": {
-        "title": "Stealth Mech",
-        "artist": "Front Line Assembly",
-        "album": "AirMech"
-    },
-    "18": {
-        "title": "CALAMITOUS",
-        "artist": "VALORANT",
-        "album": "MV//MNT VOL. 02"
-    },
-    "19": {
-        "title": "Full Moon 2.0",
-        "artist": "RJ Pasin",
-        "album": "Full Moon"
-    },
-    "20": {
-        "title": "The Cyber Grind",
-        "artist": "meganeko",
-        "album": "The Cyber Grind"
-    },
-    "21": {
-        "title": "HEIST",
-        "artist": "VALORANT",
-        "album": "MV//MNT VOL. 02"
-    },
-    "22": {
-        "title": "Slinky",
-        "artist": "Navie D",
-        "album": "Music to Banana To"
-    },
-    "23": {
-        "title": "OPEN UR EYE",
-        "artist": "Rezz",
-        "album": "CAN YOU SEE ME?"
-    },
-    "24": {
-        "title": "Komputer Problems (The Otherside Series, Vol. 3)",
-        "artist": "Le Castle Vania",
-        "album": "Komputer Problems (The Otherside Series, Vol. 3)"
-    },
-    "25": {
-        "title": "Extreme Drift",
-        "artist": "Absolute Valentine",
-        "album": "Police Heartbreaker"
-    },
-    "26": {
-        "title": "\u041c\u0443\u0441\u043e\u0440\u0449\u0438\u043a\u0438",
-        "artist": "P.T. Adamczyk",
-        "album": "Cyberpunk 2077 - Original Score"
-    },
-    "27": {
-        "title": "The Upside-Down (Stranger Things Inspired)",
-        "artist": "INTERCOM",
-        "album": "The Upside-Down (Stranger Things Inspired)"
-    },
-    "28": {
-        "title": "Murder",
-        "artist": "Soulji",
-        "album": "Black Mask"
-    },
-    "29": {
-        "title": "Gravastars",
-        "artist": "Epic Mountain",
-        "album": "Kurzgesagt, Vol. 11 (Original Motion Picture Soundtrack)"
-    },
-    "30": {
-        "title": "Hex",
-        "artist": "Simon Chylinski",
-        "album": "Hex"
-    }
-}
-"""
+#TODO change this so that a prompt asks for it if __name__ == "__main__" or something
+Spotify_playlist_ID = '4rjTXDEitThyBbXnfRJdOV'
+Youtube_playlist_ID = 'PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG'
+songs_save_path = 'playlist.json'
+IDs_save_path = 'song_IDs.json'
 
 
-search_queries = []
-for i in range(1, len(playlist_songs)+1):
-    search_queries.append(f"{playlist_songs[str(i)]['title']} {playlist_songs[str(i)]['artist']} {playlist_songs[str(i)]['album']}")
-
-Youtube_song_IDs = search_songs_with_Selenium(search_queries)
-
-with open('song_IDs.json', 'w') as myFile:
-    json.dump(Youtube_song_IDs, myFile)
-
-#"""
-
-with open('playlist.json', 'r') as myFile:
-    Youtube_song_IDs = json.load(myFile)
-
-#setup Youtube client
-youtube = get_authenticated_service()
+#ask user which steps to complete
+answer = 'h'
+while answer == 'h': #this could also be set to while True, but who cares?
+    answer = input('Which steps would you like to complete? (type "h" for help): ')
+    if answer != 'h': break
+    print(
+        '''    Step 1 retrieves the songs titles and basic data from your Spotify playlist.
+    Step 2 searches Youtube for these songs.
+    Step 3 adds these songs to your Youtube playlist.
+    To run only one step, type it's number, e.g. "1" for step 1.
+    To run multiple steps, type the number of each step, e.g. "23" to run steps 2 and 3.
+    To run the whole program, type "123"\n''')
 
 
-for ID in Youtube_song_IDs:
-    add_song_to_playlist(youtube, Youtube_playlist_ID, ID)
+
+#Step 1
+if  '1' in answer:
+    print('Step 1\nretrieving songs from Spotify...')
+    playlist_songs = get_all_playlist_tracks(Spotify_playlist_ID)
+
+    #save the song data
+    print('songs retrieved\nsaving songs...')
+    with open(songs_save_path, 'w') as myFile:
+        json.dump(playlist_songs, myFile)
+    print(f'songs saved to "{songs_save_path}"')
+
+
+#Step 2
+if '2' in answer:
+    print('Step 2')
+
+    #get playlist_songs from songs_save_path if Step 1 was not run
+    if not '1' in answer:
+        with open(songs_save_path, 'r') as myFile:
+            playlist_songs = json.load(myFile)
+
+    #generate search queries from data
+    print('searching Youtube for song IDs...')
+    search_queries = []
+    for i in range(len(playlist_songs)):
+        search_queries.append(f"{playlist_songs[i]['title']} {playlist_songs[i]['artist']} {playlist_songs[i]['album']}")
+
+    Youtube_song_IDs = search_songs_with_Selenium(search_queries)
+
+    #save the song IDs
+    print('song IDs retrieved\nsaving IDs...')
+    with open(IDs_save_path, 'w') as myFile:
+        json.dump(Youtube_song_IDs, myFile)
+    print(f'IDs saved to "{IDs_save_path}"')
+
+
+#Step 3
+if '3' in answer:
+    print('Step 3')
+
+    #get Youtube_song_IDs from IDs_save_path if Step 2 was not run
+    if not '2' in answer:
+        with open(IDs_save_path, 'r') as myFile:
+            Youtube_song_IDs = json.load(myFile)
+
+    print("Let's see if we can login to the Youtube API...")
+    youtube = get_authenticated_service() #setup Youtube client
+
+    print("Alrighty, we are logged in!\nadding songs to Youtube playlist...")
+    for ID in Youtube_song_IDs:
+        add_song_to_playlist(youtube, Youtube_playlist_ID, ID)
+    print('songs added')
+
+
+print('end of program!')

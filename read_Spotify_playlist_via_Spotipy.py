@@ -26,7 +26,22 @@ def get_all_playlist_tracks(playlist_id):
         results = sp.next(results)
         tracks.extend(results['items'])
 
-    return tracks
+    basic_info = []
+    for track in tracks:
+        if track: # Sometimes track might be None (e.g., deleted)
+
+            song_info = {}
+            song_info['title'] = track['track']['name']
+            song_info['album'] = track['track']['album']['name']
+
+            artists = []
+            for artist_thing in track['track']['artists']:
+                artists.append(artist_thing['name'])
+            song_info['artist'] = ', '.join(artists)
+
+            basic_info.append(song_info)
+
+    return basic_info
 
 
 if __name__ == "__main__":
@@ -37,11 +52,5 @@ if __name__ == "__main__":
     # Fetch all tracks
     songs = get_all_playlist_tracks(playlist_id)
 
-    # Print song details
-    for idx, item in enumerate(songs, start=1):
-        track = item['track']
-        if track:  # Sometimes track might be None (e.g., deleted)
-            name = track['name']
-            album = track["album"]["name"]
-            artists = track['artists'][0]["name"] #gets first artist only (I think)
-            print(f"{idx}. {name} - {album}: {artists}")
+    for song in songs:
+        print(f'{song["title"]} - {song["album"]}: {song["artist"]}')
