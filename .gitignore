@@ -1,4 +1,6 @@
 API_keys
+playlist.json
+song_IDs.json
 .DS_Store
 .venv
 __pycache__
