@@ -1,5 +1,6 @@
 #This program contains every step needed to create a Youtube replica of your Spotify playlist
 #note config variables below
+#see README for more info
 
 import json
 from read_Spotify_playlist_via_Spotipy import get_all_playlist_tracks
