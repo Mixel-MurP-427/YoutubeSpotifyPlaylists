@@ -12,7 +12,7 @@ from googleapiclient.errors import HttpError
 #initialize Youtube object
 def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
     creds = None
-    scope = 'https://www.googleapis.com/auth/youtube'
+    scopes = ['https://www.googleapis.com/auth/youtube']
     token_path = 'API_keys/token.json'
 
     #get keys
@@ -21,8 +21,8 @@ def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
         api_key = f.readline().strip() #api_key is unaccessed in this program
         OAuth_client_secret_path = f.readline().strip()
 
-    if os.path.exists(token_path): #TODO programs fails when opens expired token?
-        creds = Credentials.from_authorized_user_file(token_path, scope)
+    if os.path.exists(token_path):
+        creds = Credentials.from_authorized_user_file(token_path, scopes)
 
     # If there are no (valid) user credentials available, prompt the user to log in.
     if not creds or not creds.valid:
@@ -30,7 +30,7 @@ def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                OAuth_client_secret_path, scope)
+                OAuth_client_secret_path, scopes)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open(token_path, 'w') as token:
