@@ -7,7 +7,7 @@ Clone this repo and install the dependencies:
 
     pip install -r requirements.txt
 
-The code in this repository *should* work with the latest version of the required libraries, but just in case, here are the versions in place at the publication of the repository:
+Note: The code in this repository *should* work with the latest version of the required libraries, but just in case, here are the versions in place at the publication of this repository:
 
     google-api-python-client  2.169.0
     google-auth-oauthlib      1.2.2
@@ -18,9 +18,9 @@ The code in this repository *should* work with the latest version of the require
 
 - To edit Youtube playlists, you will need to make a Google Dev project, enable "YouTube Data API v3", create OAuth Client ID credentials (select the "desktop/installed app" type), and save the client secret file inside the "./API_keys" directory of this repository.
 
-- Create an "./API_keys/key.txt" file and write the filepath to your client secret file on the second line. Optional: Put your YouTube Data API v3 key on the first line. (It won't really do anything, but why not save it?)
+- Create an "./API_keys/key.txt" file and write the filepath to your client secret file on the second line. Optional: Put your general YouTube Data API v3 key on the first line. (It won't really do anything, but why not save it?)
 
-- [Setup your Spotify oauth](https://github.com/spotipy-dev/spotipy/blob/2.22.1/TUTORIAL.md) and save the client secret as "./API_keys/spotipy_creds.json". It's contents should look like this:
+- [Setup your Spotify oauth](https://github.com/spotipy-dev/spotipy/blob/2.22.1/TUTORIAL.md) and create a json file at "./API_keys/spotipy_creds.json" to save the credentials from your developer app. The file's contents should look like this:
 
         {"clientId": "abc123efg456abc123efg456abc123efg456", "clientSecret": "abc123efg456abc123efg456abc123efg456"}
 
@@ -29,11 +29,13 @@ The code in this repository *should* work with the latest version of the require
 
 ### For those who are curious about the processes inside [main.py](main.py):
 The program is broken up into three sections or "steps":
-1. **Read the songs from the Spotify playlist via Spotipy.** Using [get_all_playlist_tracks()](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/read_Spotify_playlist_via_Spotipy.py#L22), Spotipy logs into Spotify and then asks for a boatload of data about each song. The function narrows this data down to a list of dictionaries for each song with title, album, and artist data and then returns the list.
-2. **Search for these songs on Youtube Music via Selenium.** The program uses [search_songs_with_Selenium()](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/Selenium_search.py#L28) to open [Youtube Music](https://music.youtube.com/) in the browser and searches for each song via the data collected previously. It clicks some buttons to find the first song (not video!), then grabs the share link and extracts the video ID. The function returns a list of the IDs.
-3. **Add the songs to the Youtube playlist.** The [get_authenticated_service()](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/YoutubeAPI_things.py#L13) function logs into Google and gets the authentication needed to use the Youtube API. [add_song_to_playlist()](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/YoutubeAPI_things.py#L62) simply uses the Youtube API and the previously created list of video IDs to add each song to the Youtube playlist.
+1. **Read the songs from the Spotify playlist via Spotipy.** Using the [get_all_playlist_tracks](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/read_Spotify_playlist_via_Spotipy.py#L22) function, Spotipy logs into Spotify and then asks for a boatload of data about each song. The function narrows this data down to a list of dictionaries for each song with title, album, and artist data, and then it returns the list.
+2. **Search for these songs on Youtube Music via Selenium.** The program uses the [search_songs_with_Selenium](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/Selenium_search.py#L28) function to open [Youtube Music](https://music.youtube.com/) in the browser and searches for each song via the data collected previously. It clicks some buttons to find the first song (not video!), then grabs the share link and extracts the video ID. The function returns a list of the IDs.
+3. **Add the songs to the Youtube playlist.** The [get_authenticated_service](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/YoutubeAPI_things.py#L13) function logs into Google and gets the authentication needed to use the Youtube API. [add_song_to_playlist](https://github.com/Mixel-MurP-427/YoutubeSpotifyPlaylists/blob/main/YoutubeAPI_things.py#L62) simply uses the Youtube API and the previously created list of video IDs to add each song to the Youtube playlist.
 
 And that's it!
+
+If you have any comments or questions, just raise an issue or something in the repo.
 
 ## Links to documentation for APIs used
 ### Spotipy

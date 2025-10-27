@@ -1,5 +1,5 @@
 #This program contains every step needed to create a Youtube replica of your Spotify playlist
-#note config variables below
+#note config variables below at lines 11-14
 #see README for more info
 
 import json
@@ -57,6 +57,7 @@ if '2' in answer:
         search_queries.append(f"{playlist_songs[i]['title']} {playlist_songs[i]['artist']} {playlist_songs[i]['album']}")
 
     Youtube_song_IDs = search_songs_with_Selenium(search_queries)
+    # TODO note on alternate searching with Youtube API
 
     #save the song IDs
     print('song IDs retrieved\nsaving IDs...')
