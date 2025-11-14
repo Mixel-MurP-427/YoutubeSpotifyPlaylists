@@ -1,7 +1,6 @@
 #This function is an alternative to using the Youtube API to search for music.
 #It uses Selenium to open https://music.youtube.com/ and manually search for songs
 
-import json
 import re
 from time import sleep
 from selenium import webdriver
@@ -23,6 +22,10 @@ xml_paths = {
 }
 
 video_id_pattern = re.compile(r"v=([\w-]{11})")
+
+#returns the path to the 1st, 2nd, 3rd, (etc.) song on the searchlist
+def get_song_item_path(index):
+    return xml_paths['first_song_item'][:-2] + str(index) + ']'
 
 
 def search_songs_with_Selenium(queryList):
@@ -52,9 +55,10 @@ def search_songs_with_Selenium(queryList):
         song_filter_element.click()
         #wait for X button to load
         try:
-            unaccessed_var = wait.until(expected_conditions.presence_of_element_located((By.XPATH, xml_paths['X_button'])))
+            wait.until(expected_conditions.presence_of_element_located((By.XPATH, xml_paths['X_button'])))
         except Exception as e:
             raise Exception(f"Page failed to load songs filter before timeout on '{song}'.")
+        # TODO view first five options and determine the best one
         #hover over first song on list
         first_song = driver.find_element(By.XPATH, xml_paths['first_song_item'])
         actions.move_to_element(first_song).perform()

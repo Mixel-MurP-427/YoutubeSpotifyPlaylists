@@ -8,7 +8,7 @@ from Selenium_search import search_songs_with_Selenium
 from YoutubeAPI_things import get_authenticated_service, add_song_to_playlist
 
 # THE USER WILL WANT TO CONFIGURE THESE VARIALBES
-Spotify_playlist_ID = '4rjTXDEitThyBbXnfRJdOV' # from https://open.spotify.com/playlist/4rjTXDEitThyBbXnfRJdOV, the Spotify playlist I am reading from
+Spotify_playlist_ID = '6P13IW0YHoj2aLPVzQE2jp' # from https://open.spotify.com/playlist/4rjTXDEitThyBbXnfRJdOV, the Spotify playlist I am reading from
 Youtube_playlist_ID = 'PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG' # from https://music.youtube.com/playlist?list=PLQZJc4l0mTAzUqYSx0297JMVZmXNoXXEG, the Youtube playlist I am writing to
 songs_save_path = 'playlist.json'
 IDs_save_path = 'song_IDs.json'
