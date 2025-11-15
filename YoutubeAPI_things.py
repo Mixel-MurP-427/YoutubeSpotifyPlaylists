@@ -6,6 +6,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from google.auth.exceptions import RefreshError
 from googleapiclient.errors import HttpError
 
 
@@ -26,15 +27,24 @@ def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
 
     # If there are no (valid) user credentials available, prompt the user to log in.
     if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
+        # try to refresh; if refresh fails, remove token and re-run the flow
+        try:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+        except RefreshError:
+            try:
+                os.remove(token_path)
+            except OSError:
+                pass
+            creds = None
+
+        if not creds:
             flow = InstalledAppFlow.from_client_secrets_file(
                 OAuth_client_secret_path, scopes)
             creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open(token_path, 'w') as token:
-            token.write(creds.to_json())
+            # Save the credentials for the next run
+            with open(token_path, 'w') as token:
+                token.write(creds.to_json())
 
     try:
         return build('youtube', 'v3', credentials=creds)
