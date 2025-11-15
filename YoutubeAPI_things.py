@@ -28,17 +28,19 @@ def get_authenticated_service(): #credit: "https://stackoverflow.com/a/77714081"
     # If there are no (valid) user credentials available, prompt the user to log in.
     if not creds or not creds.valid:
         # try to refresh; if refresh fails, remove token and re-run the flow
+        print('Trying to refresh credentials...')
         try:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
         except RefreshError:
-            try:
+            try: # My OAuth consent is set to "Testing" and the user type "External," so refresh tokens expire after 7 days. :(
                 os.remove(token_path)
             except OSError:
                 pass
             creds = None
 
         if not creds:
+            print('Requesting new credentials...')
             flow = InstalledAppFlow.from_client_secrets_file(
                 OAuth_client_secret_path, scopes)
             creds = flow.run_local_server(port=0)
