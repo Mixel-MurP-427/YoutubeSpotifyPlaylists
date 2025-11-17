@@ -10,6 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import ElementNotInteractableException
 
 
 #constants
@@ -35,7 +36,7 @@ def get_song_item_path(index):
     return xml_paths['first_song_item'][:-2] + str(index) + ']'
 
 # compares words in first five songs to determine best match
-def pick_best_song(desired_text):
+def pick_best_song(desired_text): #TODO remove case sensitivity
     global driver
     desired_words = word_pattern.findall(desired_text)
     best_score = math.floor(len(desired_words) * 0.6) #the minimum score requirement is 60% of the highest score
@@ -89,7 +90,11 @@ def search_songs_with_Selenium(queryList):
 
         #click song filter button
         song_filter_element = driver.find_element(By.XPATH, xml_paths['song_filter_button'])
-        song_filter_element.click()
+        try:
+            song_filter_element.click()
+        except ElementNotInteractableException:
+            sleep(1)
+            song_filter_element.click()
         #wait for X button to load
         try:
             wait.until(expected_conditions.presence_of_element_located((By.XPATH, xml_paths['X_button'])))
@@ -102,10 +107,18 @@ def search_songs_with_Selenium(queryList):
         actions.move_to_element(selected_song).perform()
         #click triple dot menu button
         triple_dot = driver.find_element(By.XPATH, xml_paths['triple_dot_menu'])
-        triple_dot.click()
+        try:
+            triple_dot.click()
+        except ElementNotInteractableException:
+            sleep(1)
+            triple_dot.click() #TODO fix the ElementNotInteractableException on this line. Occured on Handclap?
         #click share button
         share_element = driver.find_element(By.XPATH, xml_paths['share_button'])
-        share_element.click()
+        try:
+            share_element.click()
+        except ElementNotInteractableException:
+            sleep(1)
+            share_element.click()
         #wait until share url loads
         try:
             url_element = wait.until(expected_conditions.presence_of_element_located((By.XPATH, xml_paths['url_element'])))
