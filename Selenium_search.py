@@ -4,6 +4,7 @@
 import re
 import math
 from time import sleep
+from urllib.parse import quote_plus
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -19,9 +20,9 @@ xml_paths = {
     'song_filter_button': '//yt-formatted-string[text() = "Songs"]',
     'X_button': '//*[@id="chips"]/ytmusic-chip-cloud-chip-renderer[1]/div/a/yt-icon/span/div',
     'first_song_item': '//*[@id="contents"]/ytmusic-responsive-list-item-renderer[1]',
-    'song_title': '/div[2]/div[1]/yt-formatted-string/a',
-    'song_artist_or_album': '/div[2]/div[3]/yt-formatted-string[1]/a',
-    'triple_dot_menu': '//*[@id="contents"]/ytmusic-responsive-list-item-renderer[1]/ytmusic-menu-renderer',
+    'song_title': '/div[2]/div[1]/yt-formatted-string/a', #relatve to song item
+    'song_artist_or_album': '/div[2]/div[3]/yt-formatted-string[1]/a', #relatve to song item
+    'triple_dot_menu': '/ytmusic-menu-renderer', #relatve to song item
     'share_button': '//yt-formatted-string[text() = "Share"]',
     'url_element': '//*[@id="share-url"]'
 }
@@ -36,7 +37,7 @@ def get_song_item_path(index):
     return xml_paths['first_song_item'][:-2] + str(index) + ']'
 
 # compares words in first five songs to determine best match
-def pick_best_song(desired_text): #TODO remove case sensitivity
+def pick_best_song(desired_text): #TODO move this code outside of the function because of WaitForGetOffsetInRange error?
     global driver
     desired_words = word_pattern.findall(desired_text)
     best_score = math.floor(len(desired_words) * 0.6) #the minimum score requirement is 60% of the highest score
@@ -55,13 +56,14 @@ def pick_best_song(desired_text): #TODO remove case sensitivity
         # rate score for matching words
         score = 0
         for word in desired_words:
-            if word in found_text: score+=1
+            if word.lower() in found_text.lower(): score+=1
         if score == len(desired_words): # return early if perfect match is found
             return el_path
         elif score > best_score:
             best_score = score
             best_option = i
 
+    if best_option != 1: print(best_option, desired_text) #TODO remove, this is dev only
     return get_song_item_path(best_option)
 
 
@@ -85,7 +87,7 @@ def search_songs_with_Selenium(queryList):
     for song in queryList:
 
         #convert to acceptable query for the url
-        search_phrase = song.replace(' ', '+')
+        search_phrase = quote_plus(song)
         driver.get(f"https://music.youtube.com/search?q={search_phrase}")
 
         #click song filter button
@@ -106,7 +108,7 @@ def search_songs_with_Selenium(queryList):
         #hover over the selected song
         actions.move_to_element(selected_song).perform()
         #click triple dot menu button
-        triple_dot = driver.find_element(By.XPATH, xml_paths['triple_dot_menu'])
+        triple_dot = driver.find_element(By.XPATH, selected_element + xml_paths['triple_dot_menu'])
         try:
             triple_dot.click()
         except ElementNotInteractableException:
@@ -140,4 +142,7 @@ def search_songs_with_Selenium(queryList):
 
 #example:
 if __name__ == "__main__":
-    print(search_songs_with_Selenium(["Mr. Blue Sky", "Church Clap", "Mayonaise on an Escalator"]))
+    print(search_songs_with_Selenium(["Meant For Good HELP! Brandon Lake, JUDAH.",
+                                      "Mr. Handagote - Baiyon Remix Machinarium (Remixed) Tom\u00e1\u0161 Dvo\u0159\u00e1k, Baiyon",
+                                      "HandClap Fitz and The Tantrums (Deluxe Edition) Fitz and The Tantrums"
+                                      ]))

@@ -1,3 +1,5 @@
+<!-- TODO update for issue 6! -->
+
 # Put your Spotify playlists on Youtube!
 (Using just Python!)
 
@@ -11,7 +13,7 @@ Note: The code in this repository *should* work with the latest version of the r
 
     google-api-python-client  2.169.0
     google-auth-oauthlib      1.2.2
-    selenium                  4.27.1
+    selenium                  4.38.0
     spotipy                   2.25.1
 
 ### Getting your API keys
