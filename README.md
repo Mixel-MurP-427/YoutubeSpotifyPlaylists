@@ -3,6 +3,8 @@
 # Put your Spotify playlists on Youtube!
 (Using just Python!)
 
+NOTE: This SmartSearch branch is really messy and doesn't work right now... We're still developing here!
+
 ## Setup
 ### Installation
 Clone this repo and install the dependencies:
