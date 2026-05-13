@@ -4,6 +4,7 @@
 import re
 import math
 from time import sleep
+from  urllib.parse import quote
 
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -85,7 +86,7 @@ def search_songs_with_Selenium(queryList):
     for song in queryList:
 
         #convert to acceptable query for the url
-        search_phrase = song.replace(' ', '+')
+        search_phrase = quote(song)
         driver.get(f"https://music.youtube.com/search?q={search_phrase}")
 
         #click song filter button
@@ -94,7 +95,11 @@ def search_songs_with_Selenium(queryList):
             song_filter_element.click()
         except ElementNotInteractableException:
             sleep(1)
-            song_filter_element.click()
+            try:
+                song_filter_element.click()
+            except ElementNotInteractableException:
+                print(f'Error: Unable to execute "song_filter_element.click()" for song "{song}"; continuing...')
+                continue
         #wait for X button to load
         try:
             wait.until(expected_conditions.presence_of_element_located((By.XPATH, xml_paths['X_button'])))
@@ -111,14 +116,22 @@ def search_songs_with_Selenium(queryList):
             triple_dot.click()
         except ElementNotInteractableException:
             sleep(1)
-            triple_dot.click() #TODO fix the ElementNotInteractableException on this line. Occured on Handclap?
+            try:
+                triple_dot.click()
+            except ElementNotInteractableException:
+                print(f'Error: Unable to execute "triple_dot.click()" for song "{song}"; continuing...')
+                continue
         #click share button
         share_element = driver.find_element(By.XPATH, xml_paths['share_button'])
         try:
             share_element.click()
         except ElementNotInteractableException:
             sleep(1)
-            share_element.click()
+            try:
+                share_element.click()
+            except ElementNotInteractableException:
+                print(f'Error: Unable to execute "share_element.click()" for song "{song}"; continuing...')
+                continue
         #wait until share url loads
         try:
             url_element = wait.until(expected_conditions.presence_of_element_located((By.XPATH, xml_paths['url_element'])))
